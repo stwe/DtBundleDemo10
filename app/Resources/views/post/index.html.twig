@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h2>Posts list</h2>
+    {{ sg_datatables_render(datatable) }}
+
+    <hr>
+    <a href="{{ path('post_new') }}" class="btn btn-primary">Create a new Post</a>
+{% endblock %}

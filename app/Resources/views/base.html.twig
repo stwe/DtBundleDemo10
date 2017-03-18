@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}SgDatatablesBundleDev{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/fc-3.2.2/fh-3.1.2/r-2.1.0/datatables.min.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css">
+        {% endblock %}
+        {% block head_javascripts %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js" charset="UTF-8"></script>
+            <script src="https://cdn.datatables.net/v/bs/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/fc-3.2.2/fh-3.1.2/r-2.1.0/datatables.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+            <script src="{{ asset('bundles/sgdatatables/js/pipeline.js') }}"></script>
+
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+    {% block header %}
+        <header>
+            <div class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{{ path('homepage') }}">
+                            SgDatatablesBundle 1.0@dev-master
+                        </a>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if app.user %}
+                                <li>
+                                    <a href="{{ path('post_index') }}">
+                                        <i class="glyphicon glyphicon-th-list"></i> Posts
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('fos_user_security_logout') }}">
+                                        <i class="glyphicon glyphicon-log-out"></i> Logout
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('fos_user_security_login') }}">
+                                        <i class="glyphicon glyphicon-log-in"></i> Login
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+
+    <div class="container body-container">
+        {% block body %}
+            <div class="row">
+                <div id="main" class="col-sm-9">
+                    {% block main %}{% endblock %}
+                    <div id="ajax_content"></div>
+                    {% block fos_user_content %}{% endblock %}
+                </div>
+
+                <div id="sidebar" class="col-sm-3">
+                    <div id="sidebar-multiselect-actions"></div>
+                    {% block sidebar %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+
+    <hr />
+
+    {% block footer %}
+        <footer style="text-align: center">
+            <div class="container">
+                <div class="row">
+                    <div id="footer-copyright" class="col-md-12">
+                        <p><small>&copy; {{ 'now'|date('Y') }} - stwe</small></p>
+                        <p><small>MIT License</small></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
+
+    </body>
+</html>
