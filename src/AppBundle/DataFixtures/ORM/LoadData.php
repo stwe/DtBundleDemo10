@@ -5,6 +5,10 @@ namespace AppBundle\DataFixtures\ORM;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\User;
+use AppBundle\Entity\EntityA;
+use AppBundle\Entity\EntityB;
+use AppBundle\Entity\EntityC;
+use AppBundle\Entity\EntityD;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -69,13 +73,33 @@ class LoadData implements FixtureInterface
             $manager->persist($post[$i]);
         }
 
+        $entityD = new EntityD();
+        $entityD->setName('EntityD');
+
+        $entityC = new EntityC();
+        $entityC->setName('EntityC');
+        $entityC->setEntityD($entityD);
+
+        $entityB = new EntityB();
+        $entityB->setName('EntityB');
+        $entityB->setEntityC($entityC);
+
+        $entityA = new EntityA();
+        $entityA->setName('EntityA');
+        $entityA->setEntityB($entityB);
+
+        $manager->persist($entityD);
+        $manager->persist($entityC);
+        $manager->persist($entityB);
+        $manager->persist($entityA);
+
         $manager->flush();
     }
 
     /**
      * Get post content.
      *
-     * @return text
+     * @return string
      */
     private function getPostContent()
     {

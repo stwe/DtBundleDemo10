@@ -43,12 +43,17 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="{{ path('post_index') }}">
+                                    <i class="glyphicon glyphicon-th-list"></i> Posts
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('entity_index') }}">
+                                    <i class="glyphicon glyphicon-transfer"></i> Association Test
+                                </a>
+                            </li>
                             {% if app.user %}
-                                <li>
-                                    <a href="{{ path('post_index') }}">
-                                        <i class="glyphicon glyphicon-th-list"></i> Posts
-                                    </a>
-                                </li>
                                 <li>
                                     <a href="{{ path('fos_user_security_logout') }}">
                                         <i class="glyphicon glyphicon-log-out"></i> Logout

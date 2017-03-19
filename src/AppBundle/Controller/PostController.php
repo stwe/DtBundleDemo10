@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Datatables\PostDatatable;
 use AppBundle\Entity\Post;
+
 use Sg\DatatablesBundle\Datatable\DatatableInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -17,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Post controller.
  *
  * @Route("post")
+ *
+ * @package AppBundle\Controller
  */
 class PostController extends Controller
 {
