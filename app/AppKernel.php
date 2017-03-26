@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
             new Sg\DatatablesBundle\SgDatatablesBundle(),
             new AppBundle\AppBundle(),
         ];

@@ -5,13 +5,16 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Post
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @Vich\Uploadable
  *
  * @package AppBundle\Entity
  */
@@ -35,7 +38,7 @@ class Post
     private $title;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
@@ -69,6 +72,22 @@ class Post
     private $rating;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName")
+     *
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $imageName;
+
+    /**
      * @var \datetime
      *
      * @Gedmo\Timestampable(on="create")
@@ -79,7 +98,6 @@ class Post
     /**
      * @var \datetime
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
@@ -106,6 +124,7 @@ class Post
     {
         $this->visible = false;
         $this->comments = new ArrayCollection();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -165,7 +184,7 @@ class Post
     /**
      * Set content.
      *
-     * @param text $content
+     * @param string $content
      *
      * @return $this
      */
@@ -179,7 +198,7 @@ class Post
     /**
      * Get content.
      *
-     * @return text
+     * @return string
      */
     public function getContent()
     {
@@ -232,6 +251,60 @@ class Post
     public function getRating()
     {
         return $this->rating;
+    }
+
+    /**
+     * Get imageFile.
+     *
+     * @return File|null
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set imageFile.
+     *
+     * @param File|null $imageFile
+     *
+     * @return $this
+     */
+    public function setImageFile(File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTime();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get imageName.
+     *
+     * @return string|null
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * Set imageName.
+     *
+     * @param string|null $imageName
+     *
+     * @return $this
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
     }
 
     /**

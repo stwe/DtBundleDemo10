@@ -65,6 +65,7 @@ class PostController extends Controller
      *
      * @Route("/bulk/delete", name="post_bulk_delete")
      * @Method("POST")
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @return Response
      */
@@ -103,6 +104,7 @@ class PostController extends Controller
      *
      * @Route("/new", name="post_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
@@ -133,6 +135,7 @@ class PostController extends Controller
      *
      * @Route("/{id}", name="post_show", options = {"expose" = true})
      * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      *
      * @return Response
      */
@@ -185,6 +188,7 @@ class PostController extends Controller
      *
      * @Route("/{id}", name="post_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

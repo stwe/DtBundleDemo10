@@ -3,9 +3,15 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class PostType
+ *
+ * @package AppBundle\Form
+ */
 class PostType extends AbstractType
 {
     /**
@@ -13,16 +19,23 @@ class PostType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')->add('content')->add('visible')->add('rating')->add('publishedAt')->add('updatedAt')->add('createdBy');
+        $builder
+            ->add('title')
+            ->add('content')
+            ->add('visible')
+            ->add('rating')
+            ->add('imageFile', FileType::class, array(
+                'label' => 'File',
+            ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Post'
+            'data_class' => 'AppBundle\Entity\Post',
         ));
     }
 
@@ -33,6 +46,4 @@ class PostType extends AbstractType
     {
         return 'appbundle_post';
     }
-
-
 }

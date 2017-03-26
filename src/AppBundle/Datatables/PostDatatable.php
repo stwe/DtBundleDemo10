@@ -13,6 +13,7 @@ use Sg\DatatablesBundle\Datatable\Column\ActionColumn;
 use Sg\DatatablesBundle\Datatable\Column\MultiselectColumn;
 //use Sg\DatatablesBundle\Datatable\Column\VirtualColumn;
 use Sg\DatatablesBundle\Datatable\Column\DateTimeColumn;
+use Sg\DatatablesBundle\Datatable\Column\ImageColumn;
 use Sg\DatatablesBundle\Datatable\Filter\TextFilter;
 use Sg\DatatablesBundle\Datatable\Filter\NumberFilter;
 use Sg\DatatablesBundle\Datatable\Filter\SelectFilter;
@@ -160,6 +161,14 @@ class PostDatatable extends AbstractDatatable
                         'show_label' => true,
                     ),
                 ),
+            ))
+            ->add('imageName', ImageColumn::class, array(
+                'title' => 'Image',
+                'imagine_filter' => 'thumbnail_50_x_50',
+                'imagine_filter_enlarged' => 'thumbnail_250_x_250',
+                'relative_path' => '/uploads/images',
+                'holder_url' => 'https://placehold.it',
+                'enlarge' => true,
             ))
             ->add('publishedAt', DateTimeColumn::class, array(
                 'title' => 'PublishedAt',
