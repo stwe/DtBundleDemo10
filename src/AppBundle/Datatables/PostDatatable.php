@@ -6,6 +6,7 @@ use Sg\DatatablesBundle\Datatable\AbstractDatatable;
 use Sg\DatatablesBundle\Datatable\Editable\SelectEditable;
 use Sg\DatatablesBundle\Datatable\Editable\TextEditable;
 use Sg\DatatablesBundle\Datatable\Filter\DateRangeFilter;
+use Sg\DatatablesBundle\Datatable\Filter\Select2Filter;
 use Sg\DatatablesBundle\Datatable\Style;
 use Sg\DatatablesBundle\Datatable\Column\Column;
 use Sg\DatatablesBundle\Datatable\Column\BooleanColumn;
@@ -42,11 +43,46 @@ class PostDatatable extends AbstractDatatable
             'individual_filtering_position' => 'head',
             'order_cells_top' => true,
             'order' => array(array($this->getDefaultOrderCol(), 'asc')),
+            'dom' => 'Bfrtip',
         ));
 
         $this->features->set(array());
 
-        $users = $this->em->getRepository('AppBundle:User')->findAll();
+        $this->extensions->set(array(
+            //'responsive' => true,
+            //'buttons' => true,
+            'buttons' => array(
+                'show_buttons' => array('copy', 'print'),
+                'create_buttons' => array(
+                    array(
+                        'action' => array(
+                            'template' => ':extension:alert.js.twig',
+                        ),
+                        'text' => 'alert',
+                    ),
+                    array(
+                        'extend' => 'csv',
+                        'text' => 'custom csv button',
+                    ),
+                ),
+            ),
+            'responsive' => array(
+                'details' => array(
+                    'display' => array(
+                        'template' => ':extension:display.js.twig',
+                    ),
+                    'renderer' => array(
+                        'template' => ':extension:renderer.js.twig',
+                    ),
+                ),
+            ),
+        ));
+
+        $this->callbacks->set(array(
+            'init_complete' => array(
+                'template' => ':callback:init.js.twig',
+            ),
+        ));
 
         $this->columnBuilder
             ->add(
@@ -181,11 +217,12 @@ class PostDatatable extends AbstractDatatable
             ))
             ->add('createdBy.username', Column::class, array(
                 'title' => 'Created by',
-                'filter' => array(SelectFilter::class,
+                'width' => '100%',
+                'filter' => array(Select2Filter::class,
                     array(
-                        'select_options' => array('' => 'All') + $this->getOptionsArrayFromEntities($users, 'username', 'username'),
                         'search_type' => 'eq',
                         'cancel_button' => true,
+                        'url' => 'select2_usernames',
                     ),
                 ),
             ))

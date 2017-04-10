@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -95,6 +96,33 @@ class PostController extends Controller
         }
 
         return new Response('Bad Request', 400);
+    }
+
+    /**
+     * Get all Users from Database to show in Select2-Filter.
+     *
+     * @param Request $request
+     *
+     * @Route("/usernames", name="select2_usernames")
+     *
+     * @return JsonResponse|Response
+     */
+    public function select2CreatedByUsersnames(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('AppBundle:User')->findAll();
+
+            $result = array();
+
+            foreach ($users as $user) {
+                $result[$user->getId()] = $user->getUsername();
+            }
+
+            return new JsonResponse($result);
+        }
+
+        return new Response('Bad request.', 400);
     }
 
     /**
