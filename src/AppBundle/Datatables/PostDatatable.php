@@ -29,6 +29,23 @@ class PostDatatable extends AbstractDatatable
     /**
      * {@inheritdoc}
      */
+    public function getLineFormatter()
+    {
+        $router = $this->router;
+
+        $formatter = function ($line) use ($router) {
+            $route = $router->generate('profile_show', array('id' => $line['createdBy']['id']));
+            $line['createdBy']['username'] = '<a href="'.$route.'">'.$line['createdBy']['username'].'</a>';
+
+            return $line;
+        };
+
+        return $formatter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function buildDatatable(array $options = array())
     {
         $this->language->set(array(
@@ -64,6 +81,14 @@ class PostDatatable extends AbstractDatatable
                         'extend' => 'csv',
                         'text' => 'custom csv button',
                     ),
+                    array(
+                        'extend' => 'pdf',
+                        'button_options' => array(
+                            'exportOptions' => array(
+                                'columns' => $this->getPdfColumns(),
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'responsive' => array(
@@ -81,6 +106,13 @@ class PostDatatable extends AbstractDatatable
         $this->callbacks->set(array(
             'init_complete' => array(
                 'template' => ':callback:init.js.twig',
+            ),
+        ));
+
+        $this->events->set(array(
+            'xhr' => array(
+                'template' => ':event:event.js.twig',
+                'vars' => array('table_name' => $this->getName()),
             ),
         ));
 
@@ -323,5 +355,27 @@ class PostDatatable extends AbstractDatatable
     private function getDefaultOrderCol()
     {
         return true === $this->isAdmin()? 1 : 0;
+    }
+
+    /**
+     * Returns the columns which are to be displayed in a pdf.
+     *
+     * @return array
+     */
+    private function getPdfColumns()
+    {
+        if (true === $this->isAdmin()) {
+            return array(
+                '1', // id column
+                '2', // title column
+                '3', // visible column
+            );
+        } else {
+            return array(
+                '0', // id column
+                '1', // title column
+                '2', // visible column
+            );
+        }
     }
 }
