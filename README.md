@@ -8,10 +8,16 @@ Symfony3.2 Demo Project For My DatatablesBundle v1.0 (dev-master)
 ### 1. Clone the project with Git:
 
 ```
-git clone git@github.com:stwe/DtBundleDemo10.git
+git clone https://github.com/stwe/DtBundleDemo10.git
 ```
 
-### 2. Install assets and dump js routing
+### 2. Install composer dependencies
+
+```
+composer install
+```
+
+### 3. Install assets and dump js routing
 
 ```
 php bin/console assets:install --symlink
@@ -21,7 +27,7 @@ php bin/console assets:install --symlink
 php bin/console fos:js-routing:dump
 ```
 
-### 3. Set-up Database
+### 4. Set-up Database
 
 Create database if it doesn't exist.
 ```
